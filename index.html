@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -314,196 +313,6 @@
                         <button onclick="switchChartRange('week')" id="btn-week" class="chart-tab px-3 py-1.5 rounded-lg bg-white text-emerald-600 shadow-sm transition">一週</button>
                         <button onclick="switchChartRange('month')" id="btn-month" class="chart-tab px-3 py-1.5 rounded-lg text-slate-600 transition">一月</button>
                         <button onclick="switchChartRange('year')" id="btn-year" class="chart-tab px-3 py-1.5 rounded-lg text-slate-600 transition">一年</button>
-           <!-- 記錄食物卡片 -->
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-plus-circle text-emerald-500"></i> 記錄餐點
-                </h2>
-
-                <!-- 食物搜尋/選擇 -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-500 mb-1">搜尋 7-11 商品</label>
-                        <div class="relative">
-                            <input type="text" id="foodSearch" placeholder="搜尋商品（如：雞胸肉、御飯糰）" 
-                                class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-                                oninput="filterFoods()">
-                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
-                        </div>
-                    </div>
-
-                    <!-- 快速選擇分類 -->
-                    <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs custom-scrollbar">
-                        <button onclick="filterCategory('all', event)" class="cat-btn bg-emerald-600 text-white px-2.5 py-1 rounded-full whitespace-nowrap">全部</button>
-                        <button onclick="filterCategory('御飯糰', event)" class="cat-btn bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap hover:bg-slate-200">御飯糰</button>
-                        <button onclick="filterCategory('鮮食', event)" class="cat-btn bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap hover:bg-slate-200">主食便當</button>
-                        <button onclick="filterCategory('健身高蛋白', event)" class="cat-btn bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap hover:bg-slate-200">健身/雞胸</button>
-                        <button onclick="filterCategory('飲品', event)" class="cat-btn bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap hover:bg-slate-200">飲品</button>
-                    </div>
-
-                    <!-- 搜尋結果清單 -->
-                    <div id="foodList" class="max-h-48 overflow-y-auto custom-scrollbar space-y-1.5 border border-slate-100 rounded-xl p-1 bg-slate-50/50">
-                        <!-- 動態填入 -->
-                    </div>
-
-                    <!-- 選中的食品資訊卡片 -->
-                    <div id="selectedFoodCard" class="hidden bg-emerald-50/60 border border-emerald-100 rounded-xl p-3.5 space-y-2">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h4 id="selectedFoodName" class="font-bold text-slate-800 text-sm">--</h4>
-                                <span id="selectedFoodCategory" class="text-[10px] bg-emerald-100 text-emerald-700 font-medium px-2 py-0.5 rounded-full">--</span>
-                            </div>
-                            <div class="text-right">
-                                <span id="selectedFoodCalories" class="text-lg font-black text-emerald-600">0</span>
-                                <span class="text-xs text-slate-500"> kcal</span>
-                            </div>
-                        </div>
-                        
-                        <!-- 營養成分標籤 -->
-                        <div class="grid grid-cols-3 gap-1 text-center bg-white/80 p-2 rounded-lg text-xs border border-emerald-100/50">
-                            <div>
-                                <div class="text-[10px] text-slate-400">蛋白質</div>
-                                <div id="selectedFoodProtein" class="font-semibold text-slate-700">0g</div>
-                            </div>
-                            <div>
-                                <div class="text-[10px] text-slate-400">脂肪</div>
-                                <div id="selectedFoodFat" class="font-semibold text-slate-700">0g</div>
-                            </div>
-                            <div>
-                                <div class="text-[10px] text-slate-400">碳水</div>
-                                <div id="selectedFoodCarbs" class="font-semibold text-slate-700">0g</div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2 pt-1">
-                            <div>
-                                <label class="text-[11px] text-slate-500 block mb-0.5">餐別標籤</label>
-                                <select id="mealType" class="w-full text-xs p-1.5 bg-white border border-slate-200 rounded-lg">
-                                    <option value="第一餐">第一餐</option>
-                                    <option value="第二餐" selected>第二餐</option>
-                                    <option value="第三餐">第三餐</option>
-                                    <option value="點心/宵夜">點心/宵夜</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-[11px] text-slate-500 block mb-0.5">進食時間</label>
-                                <input type="time" id="mealTime" class="w-full text-xs p-1 bg-white border border-slate-200 rounded-lg">
-                            </div>
-                            <div>
-                                <label class="text-[11px] text-slate-500 block mb-0.5">份數</label>
-                                <input type="number" id="foodPortion" value="1" min="0.5" step="0.5" class="w-full text-xs p-1.5 bg-white border border-slate-200 rounded-lg text-center" onchange="updateSelectedFoodDisplay()">
-                            </div>
-                        </div>
-
-                        <button onclick="addLogRecord()" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-xl text-xs transition shadow-sm">
-                            <i class="fa-solid fa-plus mr-1"></i> 新增至今日日記
-                        </button>
-                    </div>
-
-                    <!-- 禁食時間警告訊息 -->
-                    <div id="fastingWarningBanner" class="hidden bg-amber-100 border border-amber-300 text-amber-900 p-2.5 rounded-xl text-xs flex items-center gap-2">
-                        <i class="fa-solid fa-triangle-exclamation text-amber-600 text-sm"></i>
-                        <span>提示：目前處於<b>禁食時段</b>，請儘量保持空腹、多補充水分喔！</span>
-                    </div>
-
-                    <!-- 自訂食品按鈕 -->
-                    <div class="text-center">
-                        <button onclick="openCustomFoodModal()" class="text-xs text-slate-400 hover:text-emerald-600 underline">
-                            + 找不到商品？手動新增自訂食物
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 今日累積與目標概要 -->
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-4">
-                <div>
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">今日熱量狀態 (淨攝取)</h3>
-                    <div class="flex justify-between items-baseline mb-1">
-                        <div>
-                            <span class="text-2xl font-black text-slate-800" id="todayNetCal">0</span>
-                            <span class="text-xs text-slate-400"> (攝取 <span id="todayTotalCal">0</span> - 運動 <span id="todayBurnedCal">0</span>)</span>
-                        </div>
-                        <span class="text-xs text-slate-500">/ <span id="targetCalDisplay">2000</span> kcal</span>
-                    </div>
-                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-3">
-                        <div id="progressBar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
-                        <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
-                            <div class="text-[10px] text-slate-400">蛋白質</div>
-                            <div id="todayProtein" class="font-bold text-slate-700">0g</div>
-                        </div>
-                        <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
-                            <div class="text-[10px] text-slate-400">脂肪</div>
-                            <div id="todayFat" class="font-bold text-slate-700">0g</div>
-                        </div>
-                        <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
-                            <div class="text-[10px] text-slate-400">碳水化合物</div>
-                            <div id="todayCarbs" class="font-bold text-slate-700">0g</div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="border-slate-100">
-
-                <!-- 水分攝取追蹤器 -->
-                <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                            <i class="fa-solid fa-droplet text-sky-500"></i> 今日水分追蹤器
-                        </h4>
-                        <span class="text-xs text-slate-500 font-medium"><span id="waterCurrentDisplay" class="text-sky-600 font-bold">0</span> / 2000 ml</span>
-                    </div>
-                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-2.5">
-                        <div id="waterProgressBar" class="bg-sky-400 h-full transition-all duration-300" style="width: 0%"></div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-1.5 text-xs">
-                        <button onclick="addWater(250)" class="bg-sky-50 hover:bg-sky-100 text-sky-700 py-1.5 rounded-lg border border-sky-100 font-medium transition">+250ml</button>
-                        <button onclick="addWater(500)" class="bg-sky-50 hover:bg-sky-100 text-sky-700 py-1.5 rounded-lg border border-sky-100 font-medium transition">+500ml</button>
-                        <button onclick="resetWater()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 py-1.5 rounded-lg font-medium transition">重置水分</button>
-                    </div>
-                </div>
-
-                <hr class="border-slate-100">
-
-                <!-- 運動消耗紀錄 -->
-                <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                            <i class="fa-solid fa-fire text-orange-500"></i> 運動與卡路里消耗
-                        </h4>
-                        <button onclick="openExerciseModal()" class="text-xs text-orange-600 font-medium hover:underline flex items-center gap-1">
-                            <i class="fa-solid fa-plus"></i> 新增運動
-                        </button>
-                    </div>
-                    <div id="exerciseTodayList" class="space-y-1.5 max-h-24 overflow-y-auto custom-scrollbar text-xs">
-                        <!-- 動態插入運動記錄 -->
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- 右側：線性圖表與數據統計 (佔 2 欄) -->
-        <section class="lg:col-span-2 flex flex-col gap-6">
-
-            <!-- 折線圖卡片 -->
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-4">
-                    <div class="flex items-center gap-2">
-                        <div class="bg-slate-100 p-1 rounded-xl text-xs font-bold flex">
-                            <button onclick="switchChartDataType('weight')" id="btn-chart-weight" class="px-3 py-1.5 rounded-lg transition text-slate-600">體重變動 (kg)</button>
-                            <button onclick="switchChartDataType('calories')" id="btn-chart-calories" class="px-3 py-1.5 rounded-lg transition bg-emerald-600 text-white shadow-sm">熱量攝取 (kcal)</button>
-                        </div>
-                    </div>
-
-                    <div class="flex bg-slate-100 p-1 rounded-xl text-xs font-medium self-start sm:self-auto">
-                        <button onclick="switchChartRange('day')" id="btn-day" class="chart-tab px-3 py-1.5 rounded-lg text-slate-600 transition">一日</button>
-                        <button onclick="switchChartRange('week')" id="btn-week" class="chart-tab px-3 py-1.5 rounded-lg bg-white text-emerald-600 shadow-sm transition">一週</button>
-                        <button onclick="switchChartRange('month')" id="btn-month" class="chart-tab px-3 py-1.5 rounded-lg text-slate-600 transition">一月</button>
-                        <button onclick="switchChartRange('year')" id="btn-year" class="chart-tab px-3 py-1.5 rounded-lg text-slate-600 transition">一年</button>
                     </div>
                 </div>
 
@@ -513,13 +322,37 @@
                 </div>
             </div>
 
-            <!-- 今日紀錄詳細清單 (按餐別群組) -->
+            <!-- 紀錄查詢與飲食清單 -->
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex-grow">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-emerald-500"></i> 今日飲食清單 (按餐別分組)
-                    </h3>
-                    <span id="currentDateDisplay" class="text-xs text-slate-400">----/--/--</span>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-check text-emerald-500 text-lg"></i>
+                        <h3 class="text-base font-bold text-slate-800">紀錄查詢與詳細清單</h3>
+                    </div>
+
+                    <!-- 查詢日期選擇列 -->
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <div class="relative flex-grow sm:flex-grow-0">
+                            <input type="date" id="selectedDateInput" onchange="changeSelectedDate(this.value)" class="text-xs bg-slate-50 border border-slate-200 text-slate-700 font-semibold px-3 py-1.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-auto">
+                        </div>
+                        <button onclick="goToToday()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs px-2.5 py-1.5 rounded-xl transition font-medium whitespace-nowrap">
+                            回今天
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 所選日期概要小卡 -->
+                <div class="bg-emerald-50/60 border border-emerald-100/80 rounded-xl p-3 mb-4 flex flex-wrap justify-between items-center text-xs gap-2">
+                    <div>
+                        <span class="text-slate-500">查詢日期：</span>
+                        <span id="currentDateDisplay" class="font-bold text-slate-800 text-sm">----/--/--</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div><span class="text-slate-500">當日總熱量：</span><b id="queryDayTotalCal" class="text-emerald-700 font-black text-sm">0 kcal</b></div>
+                        <div><span class="text-slate-500">蛋白質：</span><b id="queryDayProtein" class="text-slate-700 font-bold">0g</b></div>
+                        <div><span class="text-slate-500">脂肪：</span><b id="queryDayFat" class="text-slate-700 font-bold">0g</b></div>
+                        <div><span class="text-slate-500">碳水：</span><b id="queryDayCarbs" class="text-slate-700 font-bold">0g</b></div>
+                    </div>
                 </div>
 
                 <!-- 記錄點群組清單 -->
@@ -698,32 +531,105 @@
         let currentRange = 'week';
         let currentChartDataType = 'calories';
         let calorieChart = null;
-
-        // 固定 168 斷食打卡狀態
-        let fastingState = {
-            status: 'eating', // 'fasting' 或 'eating'
-            lastCheckInType: null,
-            lastCheckInTime: null,
-            targetTime: null
-        };
+        let selectedDate = new Date().toISOString().split('T')[0]; // 目前選取查詢的日期，預設為當日
 
         window.onload = function() {
             loadLocalStorage();
             initDatabase();
             initChart();
-            initFastingTimer();
-            updateAllViews();
+            startFastingTimer();
             
-            const now = new Date();
-            const todayStr = now.toISOString().split('T')[0];
-            document.getElementById('currentDateDisplay').textContent = todayStr;
+            const todayStr = new Date().toISOString().split('T')[0];
+            selectedDate = todayStr;
+            document.getElementById('selectedDateInput').value = todayStr;
             document.getElementById('inputWeightDate').value = todayStr;
 
             // 設置目前時間為預設用餐時間
+            const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             document.getElementById('mealTime').value = `${hours}:${minutes}`;
+
+            updateAllViews();
         };
+
+        // 168 斷食純倒計時邏輯 (19:00 禁食 ~ 11:00 開吃)
+        function startFastingTimer() {
+            updateFastingStatus();
+            setInterval(updateFastingStatus, 1000);
+        }
+
+        function updateFastingStatus() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // 顯示當前即時時間
+            const timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const timeEl = document.getElementById('fastingCurrentTime');
+            if (timeEl) timeEl.textContent = timeString;
+
+            const statusBanner = document.getElementById('fastingStatusBanner');
+            const badge = document.getElementById('fastingBadge');
+            const message = document.getElementById('fastingMessage');
+            const warningBanner = document.getElementById('fastingWarningBanner');
+
+            if (!statusBanner || !badge || !message) return;
+
+            // 判斷是否在進食時間 (11:00 ~ 19:00)
+            const isEatingWindow = (hours >= 11 && hours < 19);
+
+            if (isEatingWindow) {
+                // 進食 window：計算距離 19:00 還有多久
+                const target = new Date(now);
+                target.setHours(19, 0, 0, 0);
+                const diffMs = target - now;
+
+                const h = Math.floor(diffMs / (1000 * 60 * 60));
+                const m = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+                statusBanner.className = "p-2.5 rounded-lg text-xs font-medium flex items-center justify-between bg-emerald-50 border border-emerald-200 text-emerald-800";
+                badge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-200 text-emerald-800";
+                badge.textContent = "進食時段";
+                message.innerHTML = `距離禁食開始還剩 <b>${h}小時 ${m}分 ${s}秒</b>`;
+
+                if (warningBanner) warningBanner.classList.add('hidden');
+            } else {
+                // 禁食 window：計算距離 明天 11:00 (或今天 11:00) 還有多久
+                const target = new Date(now);
+                if (hours >= 19) {
+                    target.setDate(target.getDate() + 1);
+                }
+                target.setHours(11, 0, 0, 0);
+                const diffMs = target - now;
+
+                const h = Math.floor(diffMs / (1000 * 60 * 60));
+                const m = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+                statusBanner.className = "p-2.5 rounded-lg text-xs font-medium flex items-center justify-between bg-amber-50 border border-amber-200 text-amber-900";
+                badge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-200 text-amber-800";
+                badge.textContent = "禁食時段";
+                message.innerHTML = `距離解禁用餐還剩 <b>${h}小時 ${m}分 ${s}秒</b>`;
+
+                if (warningBanner) warningBanner.classList.remove('hidden');
+            }
+        }
+
+        function changeSelectedDate(dateStr) {
+            if (!dateStr) return;
+            selectedDate = dateStr;
+            updateAllViews();
+        }
+
+        function goToToday() {
+            const todayStr = new Date().toISOString().split('T')[0];
+            selectedDate = todayStr;
+            document.getElementById('selectedDateInput').value = todayStr;
+            updateAllViews();
+        }
 
         function loadLocalStorage() {
             try {
@@ -745,9 +651,6 @@
                 const savedTargetCal = localStorage.getItem('711_target_cal');
                 if (savedTargetCal) targetCalories = parseInt(savedTargetCal, 10);
 
-                const savedFasting = localStorage.getItem('711_fasting_state');
-                if (savedFasting) fastingState = JSON.parse(savedFasting);
-
                 const savedCustomDb = localStorage.getItem('711_custom_db');
                 if (savedCustomDb) {
                     const customFoods = JSON.parse(savedCustomDb);
@@ -766,178 +669,25 @@
                 localStorage.setItem('711_weight_logs', JSON.stringify(weightLogs));
                 localStorage.setItem('711_profile', JSON.stringify(userProfile));
                 localStorage.setItem('711_target_cal', targetCalories.toString());
-                localStorage.setItem('711_fasting_state', JSON.stringify(fastingState));
             } catch (e) {
                 console.error("儲存 LocalStorage 失敗:", e);
             }
         }
 
-        function initFastingTimer() {
-            updateFastingUI();
-            setInterval(updateFastingUI, 1000);
-        }
-
-        function checkInFasting(type) {
-            const now = Date.now();
-            
-            if (type === 'night') {
-                fastingState.status = 'fasting';
-                fastingState.lastCheckInType = 'night';
-                fastingState.lastCheckInTime = now;
-                fastingState.targetTime = now + (16 * 3600 * 1000);
-            } else if (type === 'morning') {
-                fastingState.status = 'eating';
-                fastingState.lastCheckInType = 'morning';
-                fastingState.lastCheckInTime = now;
-                fastingState.targetTime = now + (8 * 3600 * 1000);
-            }
-
-            saveToLocalStorage();
-            updateFastingUI();
-        }
-
-        function updateFastingUI() {
-            const badge = document.getElementById('fastingStatusBadge');
-            const countdown = document.getElementById('fastingTimerCountdown');
-            const timerLabel = document.getElementById('fastingTimerLabel');
-            const startLbl = document.getElementById('fastingStartLabel');
-            const endLbl = document.getElementById('fastingEndLabel');
-            const progressLbl = document.getElementById('fastingProgressPercent');
-            const progressBar = document.getElementById('fastingProgressBar');
-            const warningBanner = document.getElementById('fastingWarningBanner');
-            const msgEl = document.getElementById('lastCheckInMessage');
-            const checkInBadge = document.getElementById('checkInBadge');
-            const clockEl = document.getElementById('realtimeClockDisplay');
-
-            const nowObj = new Date();
-            const now = nowObj.getTime();
-
-            if (clockEl) {
-                const hours = String(nowObj.getHours()).padStart(2, '0');
-                const minutes = String(nowObj.getMinutes()).padStart(2, '0');
-                const seconds = String(nowObj.getSeconds()).padStart(2, '0');
-                clockEl.textContent = `${hours}:${minutes}:${seconds}`;
-            }
-
-            const formatTime = (d) => `${String(d.getMonth()+1)}/${String(d.getDate())} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
-
-            if (!fastingState.lastCheckInTime || !fastingState.targetTime) {
-                const currentHour = nowObj.getHours();
-                const isDefaultEatingWindow = (currentHour >= 11 && currentHour < 19);
-
-                let defaultTarget = new Date(nowObj);
-                if (isDefaultEatingWindow) {
-                    defaultTarget.setHours(19, 0, 0, 0);
-                    badge.textContent = "🍽️ 用餐時段中";
-                    badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-600 text-white shadow-sm";
-                    timerLabel.textContent = "距離 19:00 禁食還剩";
-                } else {
-                    if (currentHour >= 19) {
-                        defaultTarget.setDate(defaultTarget.getDate() + 1);
-                    }
-                    defaultTarget.setHours(11, 0, 0, 0);
-                    badge.textContent = "🚫 禁食時段中";
-                    badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-indigo-600 text-white shadow-sm";
-                    timerLabel.textContent = "距離 11:00 開吃還剩";
-                }
-
-                const remaining = defaultTarget.getTime() - now;
-                if (remaining > 0) {
-                    const totalSec = Math.floor(remaining / 1000);
-                    const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
-                    const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
-                    const s = String(totalSec % 60).padStart(2, '0');
-                    countdown.textContent = `${h}:${m}:${s}`;
-                }
-
-                startLbl.textContent = "上次打卡: 尚未打卡";
-                endLbl.textContent = `目標時段: ${formatTime(defaultTarget)}`;
-                progressLbl.textContent = "0%";
-                progressBar.style.width = "0%";
-                checkInBadge.classList.add('hidden');
-
-                if (isDefaultEatingWindow) {
-                    if (warningBanner) warningBanner.classList.add('hidden');
-                    msgEl.innerHTML = `現在是 <b class="text-emerald-800">用餐時間</b>！請按「11:00 開吃打卡」開始記錄。`;
-                } else {
-                    if (warningBanner) warningBanner.classList.remove('hidden');
-                    msgEl.innerHTML = `現在是 <b class="text-indigo-800">禁食時間</b>！請按「19:00 禁食打卡」進入打卡狀態。`;
-                }
-                return;
-            }
-
-            const totalMs = fastingState.targetTime - fastingState.lastCheckInTime;
-            const elapsedMs = now - fastingState.lastCheckInTime;
-            const remainingMs = fastingState.targetTime - now;
-
-            const checkInDate = new Date(fastingState.lastCheckInTime);
-            const targetDate = new Date(fastingState.targetTime);
-            
-            checkInBadge.classList.remove('hidden');
-
-            if (fastingState.status === 'fasting') {
-                badge.textContent = "🚫 16H 禁食中";
-                badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-indigo-600 text-white shadow-sm animate-pulse";
-                timerLabel.textContent = "距離 11:00 開吃還剩";
-                startLbl.textContent = `打卡時間: ${formatTime(checkInDate)}`;
-                endLbl.textContent = `預計 11:00 開吃: ${formatTime(targetDate)}`;
-                if (warningBanner) warningBanner.classList.remove('hidden');
-
-                msgEl.innerHTML = `<span class="text-indigo-900 font-bold">已進入禁食階段！</span> 距離可以開吃還剩下下方時間，請多補充水分！`;
-            } else {
-                badge.textContent = "🍽️ 8H 用餐時段";
-                badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-600 text-white shadow-sm";
-                timerLabel.textContent = "距離 19:00 禁食還剩";
-                startLbl.textContent = `打卡時間: ${formatTime(checkInDate)}`;
-                endLbl.textContent = `預計 19:00 禁食: ${formatTime(targetDate)}`;
-                if (warningBanner) warningBanner.classList.add('hidden');
-
-                msgEl.innerHTML = `<span class="text-emerald-900 font-bold">已進入進食階段！</span> 距離 19:00 禁食還剩下下方時間。`;
-            }
-
-            if (remainingMs > 0) {
-                const totalSec = Math.floor(remainingMs / 1000);
-                const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
-                const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
-                const s = String(totalSec % 60).padStart(2, '0');
-                countdown.textContent = `${h}:${m}:${s}`;
-
-                const percent = Math.min(Math.max(Math.floor((elapsedMs / totalMs) * 100), 0), 100);
-                progressLbl.textContent = `${percent}%`;
-                progressBar.style.width = `${percent}%`;
-            } else {
-                countdown.textContent = "00:00:00";
-                progressLbl.textContent = "100%";
-                progressBar.style.width = "100%";
-                if (fastingState.status === 'fasting') {
-                    badge.textContent = "🎉 禁食已完成！可打卡開吃";
-                    badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-500 text-white";
-                    msgEl.textContent = "禁食時間已滿 16 小時！點擊「11:00 開吃打卡」開始用餐！";
-                } else {
-                    badge.textContent = "⏰ 用餐時間結束！可打卡禁食";
-                    badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-amber-600 text-white";
-                    msgEl.textContent = "進食時間已滿 8 小時！請點擊「19:00 禁食打卡」開始禁食。";
-                }
-            }
-        }
-
         function addWater(amount) {
-            const todayStr = new Date().toISOString().split('T')[0];
-            waterLogs[todayStr] = (waterLogs[todayStr] || 0) + amount;
+            waterLogs[selectedDate] = (waterLogs[selectedDate] || 0) + amount;
             saveToLocalStorage();
             updateWaterDisplay();
         }
 
         function resetWater() {
-            const todayStr = new Date().toISOString().split('T')[0];
-            waterLogs[todayStr] = 0;
+            waterLogs[selectedDate] = 0;
             saveToLocalStorage();
             updateWaterDisplay();
         }
 
         function updateWaterDisplay() {
-            const todayStr = new Date().toISOString().split('T')[0];
-            const currentWater = waterLogs[todayStr] || 0;
+            const currentWater = waterLogs[selectedDate] || 0;
             document.getElementById('waterCurrentDisplay').textContent = currentWater;
             
             const percent = Math.min(Math.round((currentWater / 2000) * 100), 100);
@@ -958,10 +708,9 @@
                 return;
             }
 
-            const now = new Date();
             exerciseLogs.push({
                 id: 'ex_' + Date.now(),
-                dateStr: now.toISOString().split('T')[0],
+                dateStr: selectedDate,
                 name: name,
                 calories: cal
             });
@@ -1055,12 +804,11 @@
             const portion = parseFloat(document.getElementById('foodPortion').value) || 1;
             const mealType = document.getElementById('mealType').value;
             const mealTime = document.getElementById('mealTime').value || '12:00';
-            const now = new Date();
 
             const record = {
                 id: Date.now().toString(),
-                dateStr: now.toISOString().split('T')[0],
-                timestamp: now.getTime(),
+                dateStr: selectedDate,
+                timestamp: Date.now(),
                 foodName: currentSelectedFood.name,
                 mealType: mealType,
                 mealTime: mealTime,
@@ -1090,18 +838,23 @@
             updateWaterDisplay();
 
             const todayStr = new Date().toISOString().split('T')[0];
-            const todayLogs = logs.filter(l => l.dateStr === todayStr);
+            const isToday = (selectedDate === todayStr);
+
+            document.getElementById('currentDateDisplay').textContent = selectedDate + (isToday ? ' (今日)' : '');
+            document.getElementById('summaryDateLabel').textContent = isToday ? '今日' : selectedDate;
+
+            const targetLogs = logs.filter(l => l.dateStr === selectedDate);
 
             let calSum = 0, pSum = 0, fSum = 0, cSum = 0;
-            todayLogs.forEach(l => {
+            targetLogs.forEach(l => {
                 calSum += l.calories;
                 pSum += l.protein;
                 fSum += l.fat;
                 cSum += l.carbs;
             });
 
-            const todayExercises = exerciseLogs.filter(e => e.dateStr === todayStr);
-            const burnedCal = todayExercises.reduce((sum, e) => sum + e.calories, 0);
+            const targetExercises = exerciseLogs.filter(e => e.dateStr === selectedDate);
+            const burnedCal = targetExercises.reduce((sum, e) => sum + e.calories, 0);
             const netCal = calSum - burnedCal;
 
             document.getElementById('todayTotalCal').textContent = calSum;
@@ -1113,6 +866,12 @@
             document.getElementById('todayFat').textContent = fSum.toFixed(1) + 'g';
             document.getElementById('todayCarbs').textContent = cSum.toFixed(1) + 'g';
 
+            // 更新查詢日期的總結資訊
+            document.getElementById('queryDayTotalCal').textContent = calSum + ' kcal';
+            document.getElementById('queryDayProtein').textContent = pSum.toFixed(1) + 'g';
+            document.getElementById('queryDayFat').textContent = fSum.toFixed(1) + 'g';
+            document.getElementById('queryDayCarbs').textContent = cSum.toFixed(1) + 'g';
+
             const percent = Math.min(Math.round((Math.max(netCal, 0) / targetCalories) * 100), 100);
             const progressBar = document.getElementById('progressBar');
             progressBar.style.width = percent + '%';
@@ -1122,24 +881,23 @@
                 progressBar.className = "bg-emerald-500 h-full transition-all duration-500";
             }
 
-            // 更新今日飲食清單：按餐別進行 Grouping
+            // 更新飲食清單：按餐別進行 Grouping
             const listEl = document.getElementById('todayLogList');
             listEl.innerHTML = '';
 
-            if (todayLogs.length === 0) {
-                listEl.innerHTML = `<div class="text-center text-xs text-slate-400 py-8">今日尚無飲食紀錄</div>`;
+            if (targetLogs.length === 0) {
+                listEl.innerHTML = `<div class="text-center text-xs text-slate-400 py-12">該日期 (${selectedDate}) 尚無飲食紀錄</div>`;
             } else {
                 const mealCategories = ['第一餐', '第二餐', '第三餐', '點心/宵夜'];
 
                 mealCategories.forEach(mealCat => {
-                    const groupItems = todayLogs.filter(l => l.mealType === mealCat);
+                    const groupItems = targetLogs.filter(l => l.mealType === mealCat);
                     if (groupItems.length > 0) {
                         const totalMealCal = groupItems.reduce((sum, item) => sum + item.calories, 0);
 
                         const card = document.createElement('div');
                         card.className = "bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 space-y-2.5 shadow-sm";
 
-                        // 餐別卡片標題列
                         let itemsHtml = '';
                         groupItems.forEach(item => {
                             itemsHtml += `
@@ -1185,10 +943,10 @@
 
             const exListEl = document.getElementById('exerciseTodayList');
             exListEl.innerHTML = '';
-            if (todayExercises.length === 0) {
-                exListEl.innerHTML = `<div class="text-[11px] text-slate-400">今日無運動紀錄</div>`;
+            if (targetExercises.length === 0) {
+                exListEl.innerHTML = `<div class="text-[11px] text-slate-400">當日無運動紀錄</div>`;
             } else {
-                todayExercises.forEach(e => {
+                targetExercises.forEach(e => {
                     const item = document.createElement('div');
                     item.className = "flex justify-between items-center bg-orange-50/50 border border-orange-100 p-1.5 rounded-lg";
                     item.innerHTML = `
