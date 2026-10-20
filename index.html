@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -53,7 +54,7 @@
     <!-- 主要內容區 -->
     <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <!-- 頂部/左上：個人資訊與目標卡片 -->
+        <!-- 頂部：個人資訊與目標卡片 -->
         <div class="lg:col-span-3 bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-100 pb-4 mb-4">
                 <div>
@@ -101,74 +102,219 @@
             </div>
         </div>
 
-        <!-- 168 斷食卡片 -->
-        <div class="lg:col-span-3 bg-gradient-to-r from-amber-50 to-orange-50 p-5 rounded-2xl shadow-sm border border-amber-200/60 relative overflow-hidden">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl shadow-sm">
-                        <i class="fa-solid fa-stopwatch"></i>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <h3 class="font-bold text-amber-900 text-base">168 間歇性斷食助手</h3>
-                            <span id="fastingStatusBadge" class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-amber-200 text-amber-800">
-                                載入中...
-                            </span>
-                        </div>
-                        <p class="text-xs text-amber-700/80 mt-0.5 flex items-center gap-2 flex-wrap">
-                            <span>固定時段：<b class="text-amber-900">19:00 禁食</b> ➔ <b class="text-amber-900">11:00 開吃</b></span>
-                            <span class="bg-amber-200/80 text-amber-900 px-2 py-0.5 rounded-md font-mono text-[11px]">
-                                <i class="fa-regular fa-clock mr-1"></i>現在時間: <b id="realtimeClockDisplay">--:--:--</b>
-                            </span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-2 w-full md:w-auto justify-between md:justify-end flex-wrap">
-                    <div class="text-right mr-2">
-                        <div class="text-[11px] text-amber-700 font-medium" id="fastingTimerLabel">距離下一階段</div>
-                        <div class="font-black text-2xl text-amber-900 tracking-tight" id="fastingTimerCountdown">00:00:00</div>
-                    </div>
-                    <!-- 打卡雙按鈕 -->
-                    <div class="flex gap-2">
-                        <button onclick="checkInFasting('night')" id="nightCheckInBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold transition shadow-sm flex items-center gap-1.5 whitespace-nowrap">
-                            <i class="fa-solid fa-moon"></i> 19:00 禁食打卡
-                        </button>
-                        <button onclick="checkInFasting('morning')" id="morningCheckInBtn" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3.5 py-2 rounded-xl font-bold transition shadow-sm flex items-center gap-1.5 whitespace-nowrap">
-                            <i class="fa-solid fa-sun"></i> 11:00 開吃打卡
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 斷食進度條 -->
-            <div class="mt-4">
-                <div class="flex justify-between text-[11px] text-amber-800/80 mb-1 font-medium">
-                    <span id="fastingStartLabel">上次打卡: 無紀錄</span>
-                    <span id="fastingProgressPercent">0%</span>
-                    <span id="fastingEndLabel">下一階段目標: --:--</span>
-                </div>
-                <div class="w-full bg-amber-200/60 h-2.5 rounded-full overflow-hidden">
-                    <div id="fastingProgressBar" class="bg-amber-500 h-full transition-all duration-300" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <!-- 打卡狀態與提醒 -->
-            <div class="mt-3 pt-2.5 border-t border-amber-200/60 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs gap-2">
-                <div class="flex items-center gap-2 text-amber-900">
-                    <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                    <span id="lastCheckInMessage" class="font-medium">載入中...</span>
-                </div>
-                <span id="checkInBadge" class="hidden text-[10px] bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold px-2 py-0.5 rounded-md">
-                    打卡成功 🎉
-                </span>
-            </div>
-        </div>
-
         <!-- 左側：記錄與食物搜尋 (佔 1 欄) -->
         <section class="lg:col-span-1 flex flex-col gap-6">
             
             <!-- 記錄食物卡片 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle text-emerald-500"></i> 記錄餐點
+                </h2>
+
+                <!-- 168 斷食純倒計時指示器 (無須打卡) -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 mb-4 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                            <i class="fa-solid fa-clock text-emerald-600"></i> 168 斷食倒計時 (19:00 - 11:00)
+                        </span>
+                        <span id="fastingCurrentTime" class="font-mono text-[11px] bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-500">00:00:00</span>
+                    </div>
+
+                    <div id="fastingStatusBanner" class="p-2.5 rounded-lg text-xs font-medium flex items-center justify-between transition-colors">
+                        <div class="flex items-center gap-2">
+                            <span id="fastingBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold">--</span>
+                            <span id="fastingMessage" class="text-slate-700">計算倒計時中...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 食物搜尋/選擇 -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-500 mb-1">搜尋 7-11 商品</label>
+                        <div class="relative">
+                            <input type="text" id="foodSearch" placeholder="搜尋商品（如：雞胸肉、御飯糰）" 
+                                class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                                oninput="filterFoods()">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+                        </div>
+                    </div>
+
+                    <!-- 快速選擇分類 -->
+                    <div class="flex gap-1.5 overflow-x-auto pb-1 text-xs custom-scrollbar">
+                        <button onclick="filterCategory('all', event)" class="cat-btn bg-emerald-600 text-white px-2.5 py-1 rounded-full whitespace-nowrap">全部</button>
+                        <button onclick="filterCategory('御飯糰', event)" class="cat-btn bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap hover:bg-slate-200">御飯糰</button>
+                        <button onclick="filterCategory('鮮食', event)" class="cat-btn bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap hover:bg-slate-200">主食便當</button>
+                        <button onclick="filterCategory('健身高蛋白', event)" class="cat-btn bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap hover:bg-slate-200">健身/雞胸</button>
+                        <button onclick="filterCategory('飲品', event)" class="cat-btn bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full whitespace-nowrap hover:bg-slate-200">飲品</button>
+                    </div>
+
+                    <!-- 搜尋結果清單 -->
+                    <div id="foodList" class="max-h-48 overflow-y-auto custom-scrollbar space-y-1.5 border border-slate-100 rounded-xl p-1 bg-slate-50/50">
+                        <!-- 動態填入 -->
+                    </div>
+
+                    <!-- 選中的食品資訊卡片 -->
+                    <div id="selectedFoodCard" class="hidden bg-emerald-50/60 border border-emerald-100 rounded-xl p-3.5 space-y-2">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 id="selectedFoodName" class="font-bold text-slate-800 text-sm">--</h4>
+                                <span id="selectedFoodCategory" class="text-[10px] bg-emerald-100 text-emerald-700 font-medium px-2 py-0.5 rounded-full">--</span>
+                            </div>
+                            <div class="text-right">
+                                <span id="selectedFoodCalories" class="text-lg font-black text-emerald-600">0</span>
+                                <span class="text-xs text-slate-500"> kcal</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 營養成分標籤 -->
+                        <div class="grid grid-cols-3 gap-1 text-center bg-white/80 p-2 rounded-lg text-xs border border-emerald-100/50">
+                            <div>
+                                <div class="text-[10px] text-slate-400">蛋白質</div>
+                                <div id="selectedFoodProtein" class="font-semibold text-slate-700">0g</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-slate-400">脂肪</div>
+                                <div id="selectedFoodFat" class="font-semibold text-slate-700">0g</div>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-slate-400">碳水</div>
+                                <div id="selectedFoodCarbs" class="font-semibold text-slate-700">0g</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 pt-1">
+                            <div>
+                                <label class="text-[11px] text-slate-500 block mb-0.5">餐別標籤</label>
+                                <select id="mealType" class="w-full text-xs p-1.5 bg-white border border-slate-200 rounded-lg">
+                                    <option value="第一餐">第一餐</option>
+                                    <option value="第二餐" selected>第二餐</option>
+                                    <option value="第三餐">第三餐</option>
+                                    <option value="點心/宵夜">點心/宵夜</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[11px] text-slate-500 block mb-0.5">進食時間</label>
+                                <input type="time" id="mealTime" class="w-full text-xs p-1 bg-white border border-slate-200 rounded-lg">
+                            </div>
+                            <div>
+                                <label class="text-[11px] text-slate-500 block mb-0.5">份數</label>
+                                <input type="number" id="foodPortion" value="1" min="0.5" step="0.5" class="w-full text-xs p-1.5 bg-white border border-slate-200 rounded-lg text-center" onchange="updateSelectedFoodDisplay()">
+                            </div>
+                        </div>
+
+                        <button onclick="addLogRecord()" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-xl text-xs transition shadow-sm">
+                            <i class="fa-solid fa-plus mr-1"></i> 新增至今日日記
+                        </button>
+                    </div>
+
+                    <!-- 禁食時間警告訊息 -->
+                    <div id="fastingWarningBanner" class="hidden bg-amber-100 border border-amber-300 text-amber-900 p-2.5 rounded-xl text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-600 text-sm"></i>
+                        <span>提示：目前處於<b>禁食時段</b>，請儘量保持空腹、多補充水分喔！</span>
+                    </div>
+
+                    <!-- 自訂食品按鈕 -->
+                    <div class="text-center">
+                        <button onclick="openCustomFoodModal()" class="text-xs text-slate-400 hover:text-emerald-600 underline">
+                            + 找不到商品？手動新增自訂食物
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 所選日期的熱量與水分概要 (跟隨 selectedDate) -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-4">
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        <span id="summaryDateLabel">今日</span> 熱量狀態 (淨攝取)
+                    </h3>
+                    <div class="flex justify-between items-baseline mb-1">
+                        <div>
+                            <span class="text-2xl font-black text-slate-800" id="todayNetCal">0</span>
+                            <span class="text-xs text-slate-400"> (攝取 <span id="todayTotalCal">0</span> - 運動 <span id="todayBurnedCal">0</span>)</span>
+                        </div>
+                        <span class="text-xs text-slate-500">/ <span id="targetCalDisplay">2000</span> kcal</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-3">
+                        <div id="progressBar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                            <div class="text-[10px] text-slate-400">蛋白質</div>
+                            <div id="todayProtein" class="font-bold text-slate-700">0g</div>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                            <div class="text-[10px] text-slate-400">脂肪</div>
+                            <div id="todayFat" class="font-bold text-slate-700">0g</div>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">
+                            <div class="text-[10px] text-slate-400">碳水化合物</div>
+                            <div id="todayCarbs" class="font-bold text-slate-700">0g</div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- 水分攝取追蹤器 -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                            <i class="fa-solid fa-droplet text-sky-500"></i> 水分追蹤器
+                        </h4>
+                        <span class="text-xs text-slate-500 font-medium"><span id="waterCurrentDisplay" class="text-sky-600 font-bold">0</span> / 2000 ml</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-2.5">
+                        <div id="waterProgressBar" class="bg-sky-400 h-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-1.5 text-xs">
+                        <button onclick="addWater(250)" class="bg-sky-50 hover:bg-sky-100 text-sky-700 py-1.5 rounded-lg border border-sky-100 font-medium transition">+250ml</button>
+                        <button onclick="addWater(500)" class="bg-sky-50 hover:bg-sky-100 text-sky-700 py-1.5 rounded-lg border border-sky-100 font-medium transition">+500ml</button>
+                        <button onclick="resetWater()" class="bg-slate-100 hover:bg-slate-200 text-slate-500 py-1.5 rounded-lg font-medium transition">重置水分</button>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- 運動消耗紀錄 -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                            <i class="fa-solid fa-fire text-orange-500"></i> 運動與卡路里消耗
+                        </h4>
+                        <button onclick="openExerciseModal()" class="text-xs text-orange-600 font-medium hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-plus"></i> 新增運動
+                        </button>
+                    </div>
+                    <div id="exerciseTodayList" class="space-y-1.5 max-h-24 overflow-y-auto custom-scrollbar text-xs">
+                        <!-- 動態插入運動記錄 -->
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- 右側：線性圖表與數據統計 (佔 2 欄) -->
+        <section class="lg:col-span-2 flex flex-col gap-6">
+
+            <!-- 折線圖卡片 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="bg-slate-100 p-1 rounded-xl text-xs font-bold flex">
+                            <button onclick="switchChartDataType('weight')" id="btn-chart-weight" class="px-3 py-1.5 rounded-lg transition text-slate-600">體重變動 (kg)</button>
+                            <button onclick="switchChartDataType('calories')" id="btn-chart-calories" class="px-3 py-1.5 rounded-lg transition bg-emerald-600 text-white shadow-sm">熱量攝取 (kcal)</button>
+                        </div>
+                    </div>
+
+                    <div class="flex bg-slate-100 p-1 rounded-xl text-xs font-medium self-start sm:self-auto">
+                        <button onclick="switchChartRange('day')" id="btn-day" class="chart-tab px-3 py-1.5 rounded-lg text-slate-600 transition">一日</button>
+                        <button onclick="switchChartRange('week')" id="btn-week" class="chart-tab px-3 py-1.5 rounded-lg bg-white text-emerald-600 shadow-sm transition">一週</button>
+                        <button onclick="switchChartRange('month')" id="btn-month" class="chart-tab px-3 py-1.5 rounded-lg text-slate-600 transition">一月</button>
+                        <button onclick="switchChartRange('year')" id="btn-year" class="chart-tab px-3 py-1.5 rounded-lg text-slate-600 transition">一年</button>
+           <!-- 記錄食物卡片 -->
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
                 <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
                     <i class="fa-solid fa-plus-circle text-emerald-500"></i> 記錄餐點
