@@ -531,7 +531,16 @@
         let currentRange = 'week';
         let currentChartDataType = 'calories';
         let calorieChart = null;
-        let selectedDate = new Date().toISOString().split('T')[0]; // 目前選取查詢的日期，預設為當日
+        
+        // 取得本地時區的 YYYY-MM-DD 日期字串，避免 ISOString (UTC) 造成少一天的問題
+        function getLocalDateString(d = new Date()) {
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        let selectedDate = getLocalDateString(); // 目前選取查詢的日期，預設為本地當日
 
         window.onload = function() {
             loadLocalStorage();
@@ -539,7 +548,7 @@
             initChart();
             startFastingTimer();
             
-            const todayStr = new Date().toISOString().split('T')[0];
+            const todayStr = getLocalDateString();
             selectedDate = todayStr;
             document.getElementById('selectedDateInput').value = todayStr;
             document.getElementById('inputWeightDate').value = todayStr;
@@ -625,7 +634,7 @@
         }
 
         function goToToday() {
-            const todayStr = new Date().toISOString().split('T')[0];
+            const todayStr = getLocalDateString();
             selectedDate = todayStr;
             document.getElementById('selectedDateInput').value = todayStr;
             updateAllViews();
@@ -837,7 +846,7 @@
             updateProfileDisplay();
             updateWaterDisplay();
 
-            const todayStr = new Date().toISOString().split('T')[0];
+            const todayStr = getLocalDateString();
             const isToday = (selectedDate === todayStr);
 
             document.getElementById('currentDateDisplay').textContent = selectedDate + (isToday ? ' (今日)' : '');
@@ -1083,7 +1092,7 @@
                     for (let i = 6; i >= 0; i--) {
                         const d = new Date();
                         d.setDate(now.getDate() - i);
-                        const dStr = d.toISOString().split('T')[0];
+                        const dStr = getLocalDateString(d);
                         labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
 
                         const daySum = logs
@@ -1097,7 +1106,7 @@
                     for (let i = 29; i >= 0; i--) {
                         const d = new Date();
                         d.setDate(now.getDate() - i);
-                        const dStr = d.toISOString().split('T')[0];
+                        const dStr = getLocalDateString(d);
                         labels.push((i % 5 === 0) ? `${d.getMonth() + 1}/${d.getDate()}` : '');
 
                         const daySum = logs
@@ -1155,7 +1164,7 @@
                     for (let i = 6; i >= 0; i--) {
                         const d = new Date();
                         d.setDate(now.getDate() - i);
-                        const dStr = d.toISOString().split('T')[0];
+                        const dStr = getLocalDateString(d);
                         labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
 
                         if (weightLogs[dStr]) lastKnownWeight = weightLogs[dStr];
@@ -1165,7 +1174,7 @@
                     for (let i = 29; i >= 0; i--) {
                         const d = new Date();
                         d.setDate(now.getDate() - i);
-                        const dStr = d.toISOString().split('T')[0];
+                        const dStr = getLocalDateString(d);
                         labels.push((i % 5 === 0) ? `${d.getMonth() + 1}/${d.getDate()}` : '');
 
                         if (weightLogs[dStr]) lastKnownWeight = weightLogs[dStr];
@@ -1239,7 +1248,7 @@
                 userProfile.weight = w;
                 userProfile.targetBmi = tb;
 
-                const todayStr = new Date().toISOString().split('T')[0];
+                const todayStr = getLocalDateString();
                 weightLogs[todayStr] = w;
 
                 saveToLocalStorage();
@@ -1259,7 +1268,7 @@
 
             if (w && dStr) {
                 weightLogs[dStr] = w;
-                const todayStr = new Date().toISOString().split('T')[0];
+                const todayStr = getLocalDateString();
                 if (dStr === todayStr) userProfile.weight = w;
 
                 saveToLocalStorage();
